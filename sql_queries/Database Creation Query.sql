@@ -64,3 +64,41 @@ SELECT * FROM normal_races;
 
 --DROP TABLE normal_races;
 
+-- lap time table to get driver position for race
+SELECT * FROM lap_times;
+
+CREATE TABLE normal_lap_times (
+	race_id INT,
+	driver_id INT,
+	lap INT,
+	position INT,
+	lap_time TIME,
+	milliseconds INT
+	);
+INSERT INTO normal_lap_times
+SELECT *
+FROM lap_times;
+
+SELECT * FROM normal_lap_times;
+
+-- drivers table
+SELECT * FROM drivers;
+CREATE TABLE normal_drivers (
+	driver_id INT,
+	car_number INT,
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
+	dob DATE,
+	nationality VARCHAR(50)
+	);
+INSERT INTO normal_drivers
+SELECT driverId, 
+	number,	
+	forename, 
+	surname, 
+	dob, 
+	nationality
+FROM drivers;
+
+SELECT * FROM normal_drivers;
+
