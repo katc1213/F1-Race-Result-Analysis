@@ -60,9 +60,56 @@ DROP COLUMN race_url;
 -- Get races from only 2024 and 2025 while delete rest
 DELETE FROM normal_races
 WHERE race_year != 2025 AND race_year != 2024;
+
 SELECT * FROM normal_races;
 
 --DROP TABLE normal_races;
+
+-- results from race
+SELECT * FROM results;
+CREATE TABLE normal_results (
+	result_id INT,
+	race_id INT,
+	driver_id INT,
+	grid INT,
+	position INT,
+	position_text VARCHAR(50),
+	position_order INT,
+	points FLOAT,
+	laps INT,
+	time VARCHAR(50),
+	milliseconds INT,
+	fastest_lap INT,
+	rank INT,
+	fastest_lap_time TIME,
+	fastest_lap_speed FLOAT,
+	status_id INT
+	);
+INSERT INTO normal_results
+SELECT 
+	resultId,
+	raceId,
+	driverId,
+	grid,
+	position,
+	positionText,
+	positionOrder,
+	points,
+	laps,
+	time,
+	milliseconds,
+	fastestLap,
+	rank,
+	fastestLapTime,
+	fastestLapSpeed,
+	statusId
+FROM results;
+SELECT * FROM normal_results;
+
+-- create table for individual driver results from races
+SELECT * 
+FROM normal_races
+INNER JOIN normal_results ON normal_races.race_id=normal_results.race_id;
 
 -- lap time table to get driver position for race
 SELECT * FROM lap_times;
@@ -100,5 +147,9 @@ SELECT driverId,
 	nationality
 FROM drivers;
 
-SELECT * FROM normal_drivers;
+SELECT * FROM normal_drivers
+ORDER BY dob DESC;
+
+DELETE FROM normal_drivers
+WHERE car_number IS NULL;
 
