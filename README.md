@@ -7,6 +7,7 @@
 3. Execute table_creations.sql query before executing other queries to create database and utilize normalized tables
 
 ### Resources  
-SQL Server - SSMS 2022 (Microsoft SQL Server Management Studio)   
+SQL Database Management - SSMS 2021 (Microsoft SQL Server Management Studio)  
+SQL Server - Microsoft SQL Server 2022 Express
 Race Data - Dataset from Kaggle: [Formula 1 Race Data](https://www.kaggle.com/datasets/jtrotman/formula-1-race-data?select=races.csv)  
 Data Visualization - Tableau
