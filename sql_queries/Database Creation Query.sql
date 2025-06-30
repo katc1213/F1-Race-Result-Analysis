@@ -1,9 +1,8 @@
 CREATE DATABASE F1_Race_Analysis;
 USE F1_Race_Analysis;
 
--- Add clean qualifying table through server
-SELECT *
-FROM qualifying;
+IF OBJECT_ID('dbo.normal_qualifying', 'U') IS NOT NULL
+    DROP TABLE dbo.normal_qualifying;
 
 -- Create normalized table with quali results
 CREATE TABLE normal_qualifying (
@@ -22,22 +21,19 @@ INSERT INTO normal_qualifying
 SELECT *
 FROM qualifying;
 
-SELECT * FROM normal_qualifying;
-
--- Add clean races table through server
-SELECT *
-FROM races;
-
 -- Create normalized table with race results
+IF OBJECT_ID('dbo.normal_races', 'U') IS NOT NULL
+    DROP TABLE dbo.normal_races;
+
 CREATE TABLE normal_races (
 	race_id INT,
 	race_year INT,
 	round INT,
 	circuit_id INT,
-	race_name VARCHAR(50),
+	race_name VARCHAR,
 	race_date DATE,
 	race_time TIME,
-	race_url VARCHAR(255),
+	race_url VARCHAR,
 	fp1_date DATE,
 	fp1_time TIME, 
 	fp2_date DATE, 
@@ -54,6 +50,7 @@ INSERT INTO normal_races
 SELECT *
 FROM races;
 
+
 ALTER TABLE normal_races
 DROP COLUMN race_url;
 
@@ -61,16 +58,16 @@ DROP COLUMN race_url;
 DELETE FROM normal_races
 WHERE race_year != 2025 AND race_year != 2024;
 
-SELECT * FROM normal_races;
-
---DROP TABLE normal_races;
-
 -- results from race
-SELECT * FROM results;
+IF OBJECT_ID('dbo.normal_results', 'U') IS NOT NULL
+    DROP TABLE dbo.normal_results;
+
 CREATE TABLE normal_results (
 	result_id INT,
 	race_id INT,
 	driver_id INT,
+	constructor_id INT,
+	number INT,
 	grid INT,
 	position INT,
 	position_text VARCHAR(50),
@@ -86,23 +83,7 @@ CREATE TABLE normal_results (
 	status_id INT
 	);
 INSERT INTO normal_results
-SELECT 
-	resultId,
-	raceId,
-	driverId,
-	grid,
-	position,
-	positionText,
-	positionOrder,
-	points,
-	laps,
-	time,
-	milliseconds,
-	fastestLap,
-	rank,
-	fastestLapTime,
-	fastestLapSpeed,
-	statusId
+SELECT *
 FROM results;
 SELECT * FROM normal_results;
 
@@ -112,7 +93,8 @@ FROM normal_races
 INNER JOIN normal_results ON normal_races.race_id=normal_results.race_id;
 
 -- lap time table to get driver position for race
-SELECT * FROM lap_times;
+IF OBJECT_ID('dbo.normal_lap_times', 'U') IS NOT NULL
+    DROP TABLE dbo.normal_lap_times;
 
 CREATE TABLE normal_lap_times (
 	race_id INT,
@@ -129,7 +111,9 @@ FROM lap_times;
 SELECT * FROM normal_lap_times;
 
 -- drivers table
-SELECT * FROM drivers;
+IF OBJECT_ID('dbo.normal_drivers', 'U') IS NOT NULL
+    DROP TABLE dbo.normal_drivers;
+
 CREATE TABLE normal_drivers (
 	driver_id INT,
 	car_number INT,
@@ -153,3 +137,23 @@ ORDER BY dob DESC;
 DELETE FROM normal_drivers
 WHERE car_number IS NULL;
 
+
+-- circuits table
+IF OBJECT_ID('dbo.normal_circuits', 'U') IS NOT NULL
+    DROP TABLE dbo.normal_circuits;
+
+CREATE TABLE normal_circuits (
+	circuit_id INT,
+	circuit_ref VARCHAR(255),
+	circuit_name VARCHAR(255),
+	location VARCHAR(50),
+	country VARCHAR(50),
+	lat FLOAT,
+	lng FLOAT,
+	alt INT,
+	url VARCHAR(255)
+	);
+INSERT INTO normal_circuits
+SELECT *
+FROM circuits;
+select * from normal_circuits;
