@@ -1,6 +1,12 @@
-# F1 2025 Season Race Result Analysis
+# F1 Race Result Analysis
 
-### User Guide
+### Description
+This data portfolio displays different visualizations of driver performances during races from both past and real-time race data. I have updates on my work in the driver_consistency jupyter notebook, which can be found in the analysis folder.
+I have currently been working on the tasks below:  
+1. Drvier Consistency in Race Position Dashboard (2024 season)
+2. Lap Time Correlation with Race Position
+
+### User Guide dor SQL Project
 1. Open up SSMS 2022 and open project folder
 2. Add clean csv files from data folder as dbo tables into project
    * Right click on tables tab in tree, select import flat file in tasks section
